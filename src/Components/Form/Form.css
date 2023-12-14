@@ -1,0 +1,51 @@
+
+
+.Form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7vh;
+    margin-top: 11vh;
+    color: white;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 35vw;
+    gap:2vh;
+}
+
+form input:focus{
+    outline: 2px solid blueviolet;
+    box-shadow: 0px 0px 10px 7px blueviolet;
+}
+
+form input:hover{
+      outline: 2px solid blueviolet;
+    box-shadow: 0px 0px 10px 7px blueviolet;
+}
+
+form > *{
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 0.9rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    outline: none;
+    color: white;
+}
+
+form > button{
+    color : white;
+    cursor:pointer;
+}
+
+span{
+    cursor: pointer;
+}
+
+.error{
+    color: red;
+}
