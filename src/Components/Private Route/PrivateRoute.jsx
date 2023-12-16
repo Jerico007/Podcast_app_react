@@ -15,7 +15,7 @@ const PrivateRoute = () => {
     if(error || !user)
     {
         toast.error("Please Signup or Login");
-       return <Navigate to="/"></Navigate>
+       return <Navigate to="/" replace></Navigate>
     } 
     return <Outlet></Outlet>
 }
