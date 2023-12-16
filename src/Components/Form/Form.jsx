@@ -1,16 +1,28 @@
 // import React from 'react';
 import "./Form.css"
+
 import { useReducer ,useState} from "react";
+
 import {auth,db} from "../../firebase";
+
 import { setDoc,getDoc, doc } from "firebase/firestore";
+
 import { createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
+
 import { setUser } from "../../Slices/userSlice";
+
 import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
+
+
 const Form = () => {
 
     //useReducer to handel form state
-    const [formState,formDispatch] = useReducer(formReducer,{fullName:"",email:"",password:"",confPassword:"",error : null});
+    const [formState,formDispatch] = useReducer(formReducer,{fullName:"",email:"",password:"",confPassword:"",loading:false});
 
     //useState for loggin or signup
     const [isLogin,setIsLogin] = useState(false);
@@ -39,14 +51,16 @@ const Form = () => {
         {
            if(!containsAlphabet(name[i]) )
            {
-               formDispatch({type:"ERROR",payLoad:"Enter a valid Name"});
+            //    formDispatch({type:"ERROR",payLoad:"Enter a valid Name"});
+            toast.error("Please enter a valid Name");
                return false;
             }
         }
         
-        if(password !== confPassword)
+        if(password !== confPassword )
         {
-            formDispatch({type:"ERROR",payLoad:"Password didn't match"});
+            // formDispatch({type:"ERROR",payLoad:"Password didn't match"});
+            toast.error("Password didn't match");
             return false;
         }
         return true;
@@ -57,19 +71,29 @@ const Form = () => {
         const {email,password} = formState;
     
         try{
+            formDispatch({type:"LOADING",payLoad:true});
             const userCredentials = await signInWithEmailAndPassword(auth,email,password);
             const user = userCredentials.user;
            const userDoc =   await getDoc(doc(db,"users",user.uid));
-           const userData = userDoc.data();
-           dispatch(setUser({fullName:userData.fullName, email:userData.email, uid:userData.uid}));
-           navigate("/Profile");
+           if(userDoc.exists())
+           {
+            const userData = userDoc.data();
+            dispatch(setUser({...userData}));
+            toast.success("Logged in successfully");
+            navigate("/Profile");
+            formDispatch({type:"SUCESS"});
+           }
+           else{
+            formDispatch({type:"LOADING",payLoad:false});
+           }
+          
         }
         catch(error){
-            formDispatch({type:"ERROR",payLoad:error.message});
+            formDispatch({type:"LOADING",payLoad:false});
+            toast.error("No user found!");
         }
         
     }
-
 
     //Function to validateSignup
    async function validateSignup(){
@@ -82,6 +106,7 @@ const Form = () => {
        else{
 
           try{
+            formDispatch({type:"LOADING",payLoad:true});
                 //Authenticating the user
                 const userCredentials = await createUserWithEmailAndPassword(auth,formState.email,formState.password);
                 const user = userCredentials.user;
@@ -96,11 +121,13 @@ const Form = () => {
                 
                 //Storing information in redux store
                 dispatch(setUser({ fullName:formState.fullName,email:formState.email,uid:user.uid}));
+                toast.success("Signed in successfully");
                 navigate("/Profile");
                 formDispatch({type:"SUCESS"});
           }
           catch(error){
-            formDispatch({type:"ERROR",payLoad:error.message});
+            formDispatch({type:"LOADING",payLoad:false});
+            toast.error(error.message);
           }
        }
 
@@ -109,7 +136,6 @@ const Form = () => {
     //Function to handel submit
     function handelSubmit(e){
         e.preventDefault();
-
         !isLogin ? validateSignup() : validateLogin();
     }
 
@@ -117,27 +143,27 @@ const Form = () => {
     function formReducer(state,action){
         if(action.type === "FULLNAME")
         {      
-            return {...state,fullName : action.payLoad,error:null};
+            return {...state,fullName : action.payLoad};
         }
         else if(action.type === "EMAIL")
         { 
-            return {...state,email:action.payLoad,error:null};
+            return {...state,email:action.payLoad};
         }
         else if(action.type === "PASSWORD")
         {  
-            return {...state,password:action.payLoad,error:null};
+            return {...state,password:action.payLoad};
         }
         else if(action.type === "CONFPASSWORD")
         {
-            return {...state,confPassword:action.payLoad,error:null};
+            return {...state,confPassword:action.payLoad};
         }
-        else if(action.type === "ERROR")
+        else if(action.type === "LOADING")
         {
-            return {...state,error:action.payLoad};
+            return {...state,loading:action.payLoad};
         }
         else if(action.type === "SUCESS")
         {
-            return {...state,fullName:"",email:"",password:"",confPassword:"",error : null};
+            return {...state,fullName:"",email:"",password:"",confPassword:"",loading:false };
         }
         return state;
     }
@@ -155,11 +181,11 @@ const Form = () => {
                 {
                     !isLogin ? <input type='password' name='confPassword' value={formState.confPassword} onInput={(e)=>(formDispatch({type:"CONFPASSWORD",payLoad:e.target.value.trim()}))} placeholder='Confirm Password' required></input> : ""
                 }
-                <button type="submit">{!isLogin ? "Signup Now" : "Login Now"}</button>
+                {
+                    formState.loading ? <button type="button">L O A D I N G . . .</button> : <button type="submit">{!isLogin ? "Signup Now" : "Login Now"}</button>
+                }
+                
             </form>
-            {
-                formState.error && <h1 className="error">{formState.error}</h1>
-            }
             {
               !isLogin ?   <p>Already have an account? <span onClick={()=>(setIsLogin(true))}>Login.</span></p> : <p>Dont have an account? <span onClick={()=>(setIsLogin(false))}>Singup.</span></p>
             }

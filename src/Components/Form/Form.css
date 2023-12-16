@@ -40,6 +40,11 @@ form > *{
 form > button{
     color : white;
     cursor:pointer;
+   
+}
+
+form > button:hover{
+    box-shadow: 0px 0px 10px 7px #7575f6;
 }
 
 span{

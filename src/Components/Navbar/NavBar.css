@@ -11,7 +11,7 @@
     flex-wrap: wrap;
     border-radius: 40px;
     margin-inline: 30vw;
-    box-shadow:  inset 0px 0px 25px 5px blue, 0px 0px 120px 50px blue;
+    box-shadow: inset 0px 0px 25px 5px #5050fd, 0px 0px 119px 28px #7575f6;
 }
 
 .NavBar a {

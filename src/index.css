@@ -10,3 +10,8 @@
 body{
 background-color: #20062E;
 }
+
+.Profile > div{
+  display: flex;
+  justify-content: center;
+}
