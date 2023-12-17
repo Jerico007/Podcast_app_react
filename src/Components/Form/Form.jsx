@@ -115,7 +115,6 @@ const Form = () => {
                  await setDoc(doc(db, "users",user.uid),{
                     fullName:formState.fullName,
                     email:formState.email,
-                    password:formState.password,
                     uid:user.uid
                 });
                 
