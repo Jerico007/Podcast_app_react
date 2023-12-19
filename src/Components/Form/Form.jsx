@@ -135,6 +135,10 @@ const Form = () => {
     //Function to handel submit
     function handelSubmit(e){
         e.preventDefault();
+        if(formState.loading)
+        {
+            return;
+        }
         !isLogin ? validateSignup() : validateLogin();
     }
 
@@ -181,7 +185,7 @@ const Form = () => {
                     !isLogin ? <input type='password' name='confPassword' value={formState.confPassword} onInput={(e)=>(formDispatch({type:"CONFPASSWORD",payLoad:e.target.value.trim()}))} placeholder='Confirm Password' required></input> : ""
                 }
                 {
-                    formState.loading ? <button type="button">L O A D I N G . . .</button> : <button type="submit">{!isLogin ? "Signup Now" : "Login Now"}</button>
+                    formState.loading ? <button type="button" className="Loading">L O A D I N G . . .</button> : <button type="submit">{!isLogin ? "Signup Now" : "Login Now"}</button>
                 }
                 
             </form>

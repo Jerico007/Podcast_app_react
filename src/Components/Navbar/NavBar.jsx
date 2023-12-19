@@ -7,9 +7,9 @@ const NavBar = () => {
         <div className='NavBar' >
             
                 <NavLink to={"/"}>Signup</NavLink>
-                <NavLink to={"/Podcasts"}>Podcasts</NavLink>
-                <NavLink to={"/StartAPodcast"}>Start A Podcast</NavLink>
-                <NavLink to={"/Profile"}>Profile</NavLink>
+                <NavLink to={"/podcasts"}>Podcasts</NavLink>
+                <NavLink to={"/startApodcast"}>Start A Podcast</NavLink>
+                <NavLink to={"/profile"}>Profile</NavLink>
         </div>
     );
 }
