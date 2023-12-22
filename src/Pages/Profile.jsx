@@ -1,12 +1,18 @@
+// Navbar component
 import NavBar from "../Components/Navbar/NavBar";
-import { useSelector } from "react-redux";
+// imported firebase 
 import { auth } from "../firebase";
+//Firebase Authentication library
 import { signOut } from "firebase/auth";
+// Toastify library
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+// Redux library
+import { useDispatch ,useSelector} from "react-redux";
 import { setUser } from "../Slices/userSlice";
+// React router library
 import { useNavigate } from "react-router-dom";
-import Button from "../Components/Button/Button";
+// Commmon Component
+import Button from "../Components/Common components/Button/Button";
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
 
@@ -34,7 +40,7 @@ const Profile = () => {
           Welcome {user.fullName}
         </h1>
       ) : ""}
-      <div>{user  ? <Button text={"Logout"} callback={handelSignOut} /> : ""}</div>
+      <div>{user  ? <Button text={"Logout"} className={"Logout-button"} callback={handelSignOut} /> : ""}</div>
     </div>
   );
 };

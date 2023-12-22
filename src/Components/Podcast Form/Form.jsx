@@ -1,11 +1,19 @@
-import FileInput from "../Podcast Image File Input/FileInput";
-import {storage,db} from "../../firebase";
-import { collection,doc,setDoc } from "firebase/firestore";
-import { getDownloadURL, ref,uploadBytes } from "firebase/storage";
-import { toast } from "react-toastify";
+// React library 
 import { useReducer } from "react";
-import { useSelector } from "react-redux";
+// Imported for file input
+import FileInput from "../Podcast Image File Input/FileInput";
+// Firebase file imported
+import {storage,db} from "../../firebase";
 
+// Firebase Firestore library
+import { collection,doc,setDoc } from "firebase/firestore";
+// Firebase storage library
+import { getDownloadURL, ref,uploadBytes } from "firebase/storage";
+// React-toastify library
+import { toast } from "react-toastify";
+// Redux Api
+import { useSelector } from "react-redux";
+// Form css imported
 import "./Form.css";
 const Form = () => {
 
@@ -53,9 +61,8 @@ const Form = () => {
             toast.error("Please complete the form!");
         }
         else {
-            // toast.success("Podcast Created!");
-            // formDispatch({type:"SUCCESS"});
-            const BannerImageRef = ref(storage ,`images/${user.uid}/${Date.now()}`);
+       
+            const BannerImageRef = ref(storage ,`images/banner_images/${user.uid}/${Date.now()}`);
             const SmallImageRef = ref(storage,`images/small_images/${user.uid}/${Date.now()}`);
             try{
                     formDispatch({type:"LOADING",payLoad:true});
@@ -100,8 +107,8 @@ const Form = () => {
             <form onSubmit={handelSubmit}>
             <input type="text" onInput={(e)=>{formDispatch({type:"TITLE",payLoad:e.target.value})}} value={formState.PodcastTitle} placeholder="Podcast Title"></input>
             <input type="text" onInput={(e)=>{formDispatch({type:"DESCRIPTION",payLoad:e.target.value})}} value={formState.PodcastDescription} placeholder="Podcast Description"></input>
-            <FileInput id={"Banner-img"}  accept={"image/*"} name={"Banner"} callback={formDispatch} />
-            <FileInput id={"Small-img"} accept={"image/*"} name={"Small"} callback={formDispatch} />
+            <FileInput id={"Banner-img"}  name={"Banner"} callback={formDispatch} />
+            <FileInput id={"Small-img"}  name={"Small"} callback={formDispatch} />
             {
                 formState.loading? <button className="Loading">Loading...</button> : <button type="submit">Create Now</button>
             }

@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import {  useState } from "react";
+import Input from "../Common components/Input/Input";
 // eslint-disable-next-line react/prop-types
 
 
-const FileInput = ({ id, accept, name, callback}) => {
+const FileInput = ({ id, name, callback}) => {
   //useState to check if file selected
   const [selected ,setStatus] = useState(false);
 
@@ -31,12 +32,14 @@ const FileInput = ({ id, accept, name, callback}) => {
            !selected ?   `Select a ${name} image` : `File ${selected.name} was selected`
         }
       </label>
-      <input
-        type="file"
+    
+
+            <Input
+            type={"file"}
+        id={id}
+        accept={"images/*"}
         style={{ display: "none" }}
         onInput={handelFileInput}
-        id={id}
-        accept={accept}
       />
     </>
   );

@@ -1,7 +1,13 @@
+// firebase Authentication
 import { useAuthState } from 'react-firebase-hooks/auth';
+// imorted firebase file
 import { auth } from '../../firebase';
+// React router dom library
 import { Navigate ,Outlet } from 'react-router-dom';
+// React toastifu library
 import {toast} from "react-toastify"
+
+// PrivateRoute css
 import "./PrivateRoute.css";
 const PrivateRoute = () => {
     const [user, loading, error] = useAuthState(auth);
@@ -9,7 +15,7 @@ const PrivateRoute = () => {
     if(loading)
     {
         return <div className='body'>
-            <div className='loading'></div>
+            <div className='loading' style={{color:"white"}}>Loading...</div>
         </div>;
     }
     if(error || !user)

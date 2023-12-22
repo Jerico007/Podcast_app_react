@@ -1,21 +1,24 @@
-// import React from 'react';
+
 import "./Form.css"
-
+// React Library
 import { useReducer ,useState} from "react";
-
+// Imported Firebase file 
 import {auth,db} from "../../firebase";
-
+//Firestore library
 import { setDoc,getDoc, doc } from "firebase/firestore";
-
+//Authuntication library
 import { createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
-
+// Redux actions
 import { setUser } from "../../Slices/userSlice";
-
+// Redux dispatch
 import { useDispatch } from "react-redux";
-
+// React router-dom
 import { useNavigate } from "react-router-dom";
-
+// React toastify library
 import { toast } from "react-toastify";
+// Common components
+import Button from "../Common components/Button/Button";
+import Input from "../Common components/Input/Input";
 
 
 
@@ -175,22 +178,26 @@ const Form = () => {
         <div className='Form'>
           <h1>{ !isLogin ? "SignUp" : "LogIn"}</h1>
             <form onSubmit={handelSubmit} >
+                
                 {
-                    !isLogin ? <input type='text' name='fullName'  value={formState.fullName} onInput={(e)=>(formDispatch({type:"FULLNAME",payLoad:e.target.value}))} placeholder='Full Name' required></input> : ""
+                    !isLogin ? <Input type={"text"}  name={"fullName"} value={formState.fullName} onInput={(e)=>(formDispatch({type:"FULLNAME",payLoad:e.target.value}))} placeholder={"Full Name"} required={true}/> : ""
                 }
-                <input type='email' name='email' value={formState.email} onInput={(e)=>(formDispatch({type:"EMAIL",payLoad:e.target.value.trim()}))} placeholder='Email' required></input>
-               
-                <input type='password' name='password' value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder='Password of atleast 6 length' required></input>
+                <Input type={"email"} name={"email"} value={formState.email} onInput={(e)=>(formDispatch({type:"EMAIL",payLoad:e.target.value.trim()}))} placeholder={"Email"} required={true}/>
+                {/* <input type='email' name='email' value={formState.email} onInput={(e)=>(formDispatch({type:"EMAIL",payLoad:e.target.value.trim()}))} placeholder='Email' required></input> */}
+                <Input type={"password"} name={"password"} value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder={"Password of atleast length 6"} required={"true"}/>
+                {/* <input type='password' name='password' value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder='Password of atleast 6 length' required></input> */}
+                
                 {
-                    !isLogin ? <input type='password' name='confPassword' value={formState.confPassword} onInput={(e)=>(formDispatch({type:"CONFPASSWORD",payLoad:e.target.value.trim()}))} placeholder='Confirm Password' required></input> : ""
+                    !isLogin ? <Input type={'password'} name={'confPassword'} value={formState.confPassword} onInput={(e)=>(formDispatch({type:"CONFPASSWORD",payLoad:e.target.value.trim()}))} placeholder={"Confirm Password"} required={true}/> : ""
                 }
+              
                 {
-                    formState.loading ? <button type="button" className="Loading">L O A D I N G . . .</button> : <button type="submit">{!isLogin ? "Signup Now" : "Login Now"}</button>
+                    formState.loading ?   <Button type={"button"} className={"Loading"} text={"L O A D I N G . . ."}/> :   <Button type={"submit"} text={!isLogin ? "Signup Now" : "Login Now"}/>
                 }
                 
             </form>
             {
-              !isLogin ?   <p>Already have an account? <span onClick={()=>(setIsLogin(true))}>Login.</span></p> : <p>Dont have an account? <span onClick={()=>(setIsLogin(false))}>Singup.</span></p>
+              !isLogin ?   <p>Already have an account? <span style={{cursor:"pointer"}}  onClick={()=>(setIsLogin(true))}>Login.</span></p> : <p>Dont have an account? <span style={{cursor:"pointer"}} onClick={()=>(setIsLogin(false))}>Singup.</span></p>
             }
         </div>
     );

@@ -37,6 +37,7 @@ function App() {
           if (docSnap.exists()) {
             // console.log(docSnap.data());
             const docData = docSnap.data();
+            toast.success("Welcome " + docData.fullName);
             dispatch(
               setUser({
                 fullName: docData.fullName,
