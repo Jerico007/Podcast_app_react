@@ -6,20 +6,23 @@ import FileInput from "../Podcast Image File Input/FileInput";
 import {storage,db} from "../../firebase";
 
 // Firebase Firestore library
-import { collection,doc,setDoc } from "firebase/firestore";
+import { addDoc, collection} from "firebase/firestore";
 // Firebase storage library
 import { getDownloadURL, ref,uploadBytes } from "firebase/storage";
 // React-toastify library
 import { toast } from "react-toastify";
 // Redux Api
 import { useSelector } from "react-redux";
+// React router library
+import { useNavigate } from "react-router-dom";
 // Form css imported
 import "./Form.css";
 const Form = () => {
 
     //use Selector for current user id
     const {user} = useSelector(state => state.user);
-
+   
+    const Navigate = useNavigate();
 
     //useReducer for managing form state
     const [formState,formDispatch] = useReducer(FormReducer , {PodcastTitle:"",PodcastDescription:"",BannerImage:"",smallImage:"",loading:false})
@@ -75,11 +78,13 @@ const Form = () => {
                         title : formState.PodcastTitle,
                         description : formState.PodcastDescription,
                         bannerImage : BannerImageURL,
-                        smallImage : SmallImageURL
+                        smallImage : SmallImageURL,
+                        createdBy : user.uid
                     }
 
-                     await setDoc(doc(collection(db,"Podcast")),newPodcast);
-                  
+                    const docRef = await addDoc(collection(db,"Podcast"),newPodcast);
+                    
+                    Navigate(`/profile/${docRef.id}`);
                     toast.success("Podcast Uploaded!");
                     formDispatch({type:"LOADING",payLoad:false});
                      formDispatch({type:"SUCCESS"});

@@ -1,13 +1,13 @@
 // Navbar component
 import NavBar from "../Components/Navbar/NavBar";
-// imported firebase 
+// imported firebase
 import { auth } from "../firebase";
 //Firebase Authentication library
 import { signOut } from "firebase/auth";
 // Toastify library
 import { toast } from "react-toastify";
 // Redux library
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../Slices/userSlice";
 // React router library
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Components/Common components/Button/Button";
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
-
 
   //To navigate to sign in page
   const navigate = useNavigate();
@@ -25,9 +24,9 @@ const Profile = () => {
   function handelSignOut() {
     signOut(auth)
       .then(() => {
-         navigate("/");
-         toast.success("Logout Success!");
-         dispatch(setUser(""));
+        navigate("/");
+        toast.success("Logout Success!");
+        dispatch(setUser(""));
       })
       .catch((err) => toast.error(err.message));
   }
@@ -35,12 +34,31 @@ const Profile = () => {
   return (
     <div className="Profile">
       <NavBar />
-      {user  ? (
-        <h1 style={{ textAlign: "center", color: "white", padding: "3rem" }}>
-          Welcome {user.fullName}
-        </h1>
-      ) : ""}
-      <div>{user  ? <Button text={"Logout"} className={"Logout-button"} callback={handelSignOut} /> : ""}</div>
+
+      <div className="Profile-holder">
+        <div className="Profile-content">
+          {user ? (
+            <h1
+              style={{ textAlign: "center", color: "white", padding: "3rem" }}
+            >
+              Welcome {user.fullName}
+            </h1>
+          ) : (
+            ""
+          )}
+          <div>
+            {user ? (
+              <Button
+                text={"Logout"}
+                className={"Logout-button"}
+                callback={handelSignOut}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

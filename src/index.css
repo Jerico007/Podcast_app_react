@@ -11,7 +11,52 @@ body{
 background-color: #20062E;
 }
 
-.Profile > div{
+
+/* Podcasts*/
+.Podcasts-holder{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5vh;
+  padding-top: 2rem;
+}
+
+.Podcasts-heading{
+  color: white;
+}
+
+.Podcasts-search:focus{
+  outline: 2px solid blueviolet;
+  box-shadow: 0px 0px 10px 7px blueviolet;
+}
+
+.Podcasts-search:hover{
+    outline: 2px solid blueviolet;
+  box-shadow: 0px 0px 10px 7px blueviolet;
+}
+
+.Podcasts-search{
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 0.9rem;
+  font-size: 0.9rem;
+  width: 75vw;
+  border-radius: 6px;
+  outline: none;
+  color: white;
+}
+
+/* Profile */
+.Profile > .Profile-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.Profile-content > div{
   display: flex;
   justify-content: center;
 }
@@ -31,3 +76,4 @@ background-color: #20062E;
 .Profile .Logout-button:hover{
   box-shadow: 0px 0px 10px 7px #7575f6;
 }
+

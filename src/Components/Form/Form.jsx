@@ -1,7 +1,8 @@
 
 import "./Form.css"
 // React Library
-import { useReducer ,useState} from "react";
+import {  useReducer ,useState} from "react";
+
 // Imported Firebase file 
 import {auth,db} from "../../firebase";
 //Firestore library
@@ -10,8 +11,10 @@ import { setDoc,getDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
 // Redux actions
 import { setUser } from "../../Slices/userSlice";
+
 // Redux dispatch
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
+// 
 // React router-dom
 import { useNavigate } from "react-router-dom";
 // React toastify library
@@ -25,17 +28,21 @@ import Input from "../Common components/Input/Input";
 const Form = () => {
 
     //useReducer to handel form state
-    const [formState,formDispatch] = useReducer(formReducer,{fullName:"",email:"",password:"",confPassword:"",loading:false});
+    const [formState,formDispatch] = useReducer(formReducer,{fullName:"",email:"",password:"",confPassword:"",loadings:false});
 
     //useState for loggin or signup
     const [isLogin,setIsLogin] = useState(false);
 
+   
+    
+    
 
     //dipatch method
     const dispatch = useDispatch();
 
     //navigate method
     const navigate = useNavigate();
+
 
     //Function to check for alphabets or whitespace
     function containsAlphabet(str)
@@ -77,7 +84,7 @@ const Form = () => {
             formDispatch({type:"LOADING",payLoad:true});
             const userCredentials = await signInWithEmailAndPassword(auth,email,password);
             const user = userCredentials.user;
-           const userDoc =   await getDoc(doc(db,"users",user.uid));
+            const userDoc =   await getDoc(doc(db,"users",user.uid));
            if(userDoc.exists())
            {
             const userData = userDoc.data();
@@ -107,7 +114,8 @@ const Form = () => {
             return;
        }
        else{
-
+         
+            formDispatch({type:"LOADING",payLoad:true});
           try{
             formDispatch({type:"LOADING",payLoad:true});
                 //Authenticating the user
@@ -167,9 +175,9 @@ const Form = () => {
         {
             return {...state,loading:action.payLoad};
         }
-        else if(action.type === "SUCESS")
+        else if(action.type === "SUCCESS")
         {
-            return {...state,fullName:"",email:"",password:"",confPassword:"",loading:false };
+            return {...state,fullName:"",email:"",password:"",confPassword:"" };
         }
         return state;
     }
@@ -183,10 +191,7 @@ const Form = () => {
                     !isLogin ? <Input type={"text"}  name={"fullName"} value={formState.fullName} onInput={(e)=>(formDispatch({type:"FULLNAME",payLoad:e.target.value}))} placeholder={"Full Name"} required={true}/> : ""
                 }
                 <Input type={"email"} name={"email"} value={formState.email} onInput={(e)=>(formDispatch({type:"EMAIL",payLoad:e.target.value.trim()}))} placeholder={"Email"} required={true}/>
-                {/* <input type='email' name='email' value={formState.email} onInput={(e)=>(formDispatch({type:"EMAIL",payLoad:e.target.value.trim()}))} placeholder='Email' required></input> */}
-                <Input type={"password"} name={"password"} value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder={"Password of atleast length 6"} required={"true"}/>
-                {/* <input type='password' name='password' value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder='Password of atleast 6 length' required></input> */}
-                
+                <Input type={"password"} name={"password"} value={formState.password} onInput={(e)=>(formDispatch({type:"PASSWORD",payLoad:e.target.value.trim()}))} placeholder={"Password of atleast length 6"} required={true}/>
                 {
                     !isLogin ? <Input type={'password'} name={'confPassword'} value={formState.confPassword} onInput={(e)=>(formDispatch({type:"CONFPASSWORD",payLoad:e.target.value.trim()}))} placeholder={"Confirm Password"} required={true}/> : ""
                 }

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,useNavigate } from "react-router-dom";
 
 import Signup from "./Pages/Signup";
 
@@ -25,11 +25,15 @@ import { doc, getDoc } from "firebase/firestore";
 import { setUser } from "./Slices/userSlice";
 
 import PrivateRoute from "./Components/Private Route/PrivateRoute";
+
 function App() {
+  
   const dispatch = useDispatch();
 
+  const Navigate = useNavigate();
   //useEffect to authorize user if already authorized
   useEffect(() => {
+    Navigate("/profile");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -37,7 +41,6 @@ function App() {
           if (docSnap.exists()) {
             // console.log(docSnap.data());
             const docData = docSnap.data();
-            toast.success("Welcome " + docData.fullName);
             dispatch(
               setUser({
                 fullName: docData.fullName,
@@ -50,6 +53,7 @@ function App() {
       } else {
         // No user is signed in.
         toast.success("Welcome Anonymous");
+        Navigate("/");
       }
     });
     return () => {
