@@ -3,7 +3,7 @@ import { useReducer } from "react";
 // Imported for file input
 import FileInput from "../Podcast Image File Input/FileInput";
 // Firebase file imported
-import {storage,db} from "../../firebase";
+import {storage,db, auth} from "../../firebase";
 
 // Firebase Firestore library
 import { addDoc, collection} from "firebase/firestore";
@@ -79,12 +79,12 @@ const Form = () => {
                         description : formState.PodcastDescription,
                         bannerImage : BannerImageURL,
                         smallImage : SmallImageURL,
-                        createdBy : user.uid
+                        createdBy : auth.currentUser.uid +`${Date.now()}`
                     }
 
-                    const docRef = await addDoc(collection(db,"Podcast"),newPodcast);
-                    
-                    Navigate(`/profile/${docRef.id}`);
+                      await addDoc(collection(db,"Podcast"),newPodcast);
+
+                    Navigate(`/podcasts`);
                     toast.success("Podcast Uploaded!");
                     formDispatch({type:"LOADING",payLoad:false});
                      formDispatch({type:"SUCCESS"});

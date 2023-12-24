@@ -26,7 +26,10 @@ import { setUser } from "./Slices/userSlice";
 
 import PrivateRoute from "./Components/Private Route/PrivateRoute";
 
+
 function App() {
+  
+ 
   
   const dispatch = useDispatch();
 
@@ -36,10 +39,11 @@ function App() {
     Navigate("/profile");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+ 
         const docRef = doc(db, "users", user.uid);
         getDoc(docRef).then((docSnap) => {
           if (docSnap.exists()) {
-            // console.log(docSnap.data());
+           
             const docData = docSnap.data();
             dispatch(
               setUser({
@@ -61,12 +65,13 @@ function App() {
     };
   }, []);
 
+ 
   return (
     <>
       <Routes>
         <Route path="/" element={<Signup />}></Route>
         <Route element={<PrivateRoute/>}>
-          <Route path="/podcasts" element={<Podcasts />}></Route>
+          <Route path={`/podcasts`} element={<Podcasts />}></Route>
           <Route path="/startApodcast" element={<StartAPodcast />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Route>
