@@ -79,10 +79,10 @@ const Form = () => {
                         description : formState.PodcastDescription,
                         bannerImage : BannerImageURL,
                         smallImage : SmallImageURL,
-                        createdBy : auth.currentUser.uid +`${Date.now()}`
+                        createdBy : auth.currentUser.uid
                     }
 
-                      await addDoc(collection(db,"Podcast"),newPodcast);
+                      await addDoc(collection(db,"podcast"),newPodcast);
 
                     Navigate(`/podcasts`);
                     toast.success("Podcast Uploaded!");

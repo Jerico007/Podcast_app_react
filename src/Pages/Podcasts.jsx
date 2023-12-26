@@ -24,10 +24,10 @@ const Podcasts = () => {
 
   // Getting the list of podcasts that are currently available
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "Podcast"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "podcast"), (snapshot) => {
       const podcasts = [];
       snapshot.forEach((doc) => {
-        podcasts.push(doc.data());
+        podcasts.push({id:doc.id,details:doc.data()});
       });
       dispatch(setPodcasts(podcasts));
     });
@@ -44,13 +44,13 @@ const Podcasts = () => {
     // Filtering out the podcast
     let newArray = podcasts.filter(
       (val) =>
-        val.title.toLowerCase().substring(0, e.target.value.length) ===
+        val.details.title.toLowerCase().substring(0, e.target.value.length) ===
         e.target.value.toLowerCase()
     );
     dispatch(setFilterPodcasts(newArray));
   }
 
-  //   console.log(podcasts);
+    // console.log(podcasts);
   return (
     <div className="Podcasts">
       <NavBar />
@@ -69,19 +69,19 @@ const Podcasts = () => {
           {filterPodcasts.length > 0
             ? filterPodcasts.map((val) => (
                 <PodcastCard
-                  key={val.createdBy}
-                  createdBy={val.createdBy}
-                  image={val.bannerImage}
-                  title={val.title}
+                  key={val.id}
+                  id={val.id}
+                  image={val.details.smallImage}
+                  title={val.details.title}
                 />
               ))
             : podcasts.length > 0 &&
               podcasts.map((val) => (
                 <PodcastCard
-                  key={val.createdBy}
-                  createdBy={val.createdBy}
-                  image={val.bannerImage}
-                  title={val.title}
+                  key={val.id}
+                  id={val.id}
+                  image={val.details.smallImage}
+                  title={val.details.title}
                 />
               ))}
         </div>

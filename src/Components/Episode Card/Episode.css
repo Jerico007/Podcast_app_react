@@ -1,0 +1,50 @@
+.Pod-episodes{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .Episode-heading{
+  margin-bottom: 1rem;
+  }
+  
+  .Pod-episode-description{
+    overflow-y: auto;
+    height: 17vh;
+    word-break: break-all;
+  }
+  
+  .Pod-episode-description::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  .Pod-episode-description::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #cac7bd;
+  }
+   
+  /* Handle */
+  .Pod-episode-description::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #3397ec;
+  }
+  
+  .Pod-episode{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 5vh;
+    color: white;
+  }
+  
+  .Pod-episode-play-button{
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 0.8rem;
+    cursor: pointer;
+    border-radius: 5px;
+  }

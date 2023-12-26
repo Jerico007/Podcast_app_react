@@ -115,7 +115,7 @@ const Form = () => {
        }
        else{
          
-            formDispatch({type:"LOADING",payLoad:true});
+           
           try{
             formDispatch({type:"LOADING",payLoad:true});
                 //Authenticating the user

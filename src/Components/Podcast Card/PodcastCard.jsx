@@ -6,11 +6,11 @@ import "./PodcastCard.css";
 // React router dom
 import { Link } from "react-router-dom";
 
-const PodcastCard = ({ image, title ,createdBy }) => {
+const PodcastCard = ({ image, title , id }) => {
 
   
   return (
-    <Link to={`/PodcastDetails${createdBy}`}>
+    <Link to={`/PodcastDetails/${id}`}>
      <div className="PodcastCard">
       <div className="PodcastCard-content">
         <img className="PodcastCard-bannerImage" src={image} />

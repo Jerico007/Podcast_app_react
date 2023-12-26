@@ -1,39 +1,42 @@
+// React router Dom library
 import { Routes, Route,useNavigate } from "react-router-dom";
 
+// Pages routes
 import Signup from "./Pages/Signup";
-
 import Podcasts from "./Pages/Podcasts";
-
 import StartAPodcast from "./Pages/StartAPodcast";
-
-import { useEffect } from "react";
-
+import PodcastDetails from "./Pages/PodcastDetails";
+import PodcastCreateEpisode from "./Pages/PodcastCreateEpisode";
 import Profile from "./Pages/Profile";
 
-import { useDispatch } from "react-redux";
+// React libraries
+import { useEffect } from "react";
 
+
+// Firebase libraries
 import { auth, db } from "./firebase";
-
 import { onAuthStateChanged } from "firebase/auth";
-
-import { ToastContainer,toast } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
-
 import { doc, getDoc } from "firebase/firestore";
 
-import { setUser } from "./Slices/userSlice";
+// React toastify libraries
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+
+// Redux libraries 
+import { setUser } from "./Slices/userSlice";
+import { useDispatch } from "react-redux";
+// Private route component
 import PrivateRoute from "./Components/Private Route/PrivateRoute";
 
 
 function App() {
   
  
-  
   const dispatch = useDispatch();
 
   const Navigate = useNavigate();
+ 
   //useEffect to authorize user if already authorized
   useEffect(() => {
     Navigate("/profile");
@@ -73,6 +76,8 @@ function App() {
         <Route element={<PrivateRoute/>}>
           <Route path={`/podcasts`} element={<Podcasts />}></Route>
           <Route path="/startApodcast" element={<StartAPodcast />}></Route>
+          <Route path="/podcastDetails/:id" element={<PodcastDetails />}></Route>
+          <Route path="/podcast/create-episode/:id" element={<PodcastCreateEpisode />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Route>
       </Routes>
