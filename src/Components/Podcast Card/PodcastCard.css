@@ -37,6 +37,6 @@ a{
 
 @media screen and (min-width:320px) and (max-width:500px) {
     .PodcastCard-bannerImage{
-        width: 55vh;
+        height: 30vh;
     }
 }
