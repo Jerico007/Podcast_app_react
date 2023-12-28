@@ -1,13 +1,15 @@
 // React library 
 import { useReducer } from "react";
-// Imported for file input
-import FileInput from "../Podcast Image File Input/FileInput";
-// Firebase file imported
-import {storage,db, auth} from "../../firebase";
 
-// Firebase Firestore library
+// Imported from common components
+import Input from "../Common components/Input/Input";
+import FileInput from "../Common components/File Input/FileInput";
+import Button from "../Common components/Button/Button";
+
+
+// Firebase  library
+import {storage,db, auth} from "../../firebase";
 import { addDoc, collection} from "firebase/firestore";
-// Firebase storage library
 import { getDownloadURL, ref,uploadBytes } from "firebase/storage";
 // React-toastify library
 import { toast } from "react-toastify";
@@ -25,7 +27,7 @@ const Form = () => {
     const Navigate = useNavigate();
 
     //useReducer for managing form state
-    const [formState,formDispatch] = useReducer(FormReducer , {PodcastTitle:"",PodcastDescription:"",BannerImage:"",smallImage:"",loading:false})
+    const [formState,formDispatch] = useReducer(FormReducer , {PodcastTitle:"",PodcastDescription:"",BannerImage:"",smallImage:"",loading:false});
 
     function FormReducer (state,action)
     {
@@ -82,7 +84,7 @@ const Form = () => {
                         createdBy : auth.currentUser.uid
                     }
 
-                      await addDoc(collection(db,"podcast"),newPodcast);
+                      await addDoc(collection(db,"podcasts"),newPodcast);
 
                     Navigate(`/podcasts`);
                     toast.success("Podcast Uploaded!");
@@ -110,12 +112,12 @@ const Form = () => {
         <div className='Form'>
             <h1>Create A Podcast</h1>
             <form onSubmit={handelSubmit}>
-            <input type="text" onInput={(e)=>{formDispatch({type:"TITLE",payLoad:e.target.value})}} value={formState.PodcastTitle} placeholder="Podcast Title"></input>
-            <input type="text" onInput={(e)=>{formDispatch({type:"DESCRIPTION",payLoad:e.target.value})}} value={formState.PodcastDescription} placeholder="Podcast Description"></input>
-            <FileInput id={"Banner-img"}  name={"Banner"} callback={formDispatch} />
-            <FileInput id={"Small-img"}  name={"Small"} callback={formDispatch} />
+            <Input type="text" onInput={(e)=>{formDispatch({type:"TITLE",payLoad:e.target.value})}} value={formState.PodcastTitle} placeholder="Podcast Title"></Input>
+            <Input type="text" onInput={(e)=>{formDispatch({type:"DESCRIPTION",payLoad:e.target.value})}} value={formState.PodcastDescription} placeholder="Podcast Description"></Input>
+            <FileInput id={"Banner-img"}  name={"Banner"} accept={"images/*"} callback={formDispatch} />
+            <FileInput id={"Small-img"}  name={"Small"} accept={"images/*"} callback={formDispatch} />
             {
-                formState.loading? <button className="Loading">Loading...</button> : <button type="submit">Create Now</button>
+                formState.loading? <Button className="Loading" text={"Loading..."}></Button> : <Button type="submit" text={"Create Now"}></Button>
             }
           
            </form>    

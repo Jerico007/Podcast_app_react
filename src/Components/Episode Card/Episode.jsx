@@ -1,34 +1,72 @@
+/* eslint-disable react/prop-types */
 import "./Episode.css";
 
 import Button from "../Common components/Button/Button";
 
+import { FaPlay,FaPause } from "react-icons/fa";
 
-const Episode = () => {
-    return (
-        <>
-              <div className="Pod-episodes">
-            <h3 className="Episode-heading" style={{color:"white"}}>Episodes</h3>
 
-            <div className="Pod-episode">
-              <p className="Pod-episode-name">1.) Episode 1 Name</p>
-              <p className="Pod-episode-description">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Laudantium aliquam assumenda ipsam corrupti quas? Accusantium
-                rem minus sequi ut voluptatem repellendus quia in dolor
-                asperiores, laudantium sit ratione aliquam enim unde odit
-                cupiditate ad sint aspernatur iste corrupti fugiat tempore
-                provident. Cupiditate quaerat quis ducimus ex dolores? Qui
-                consectetur possimus debitis, sapiente assumenda id iusto magni
-                beatae reiciendis quae repellendus nihil in eum illum incidunt
-                odit? Est assumenda tempore et voluptates eaque doloremque
-                praesentium repellat excepturi facilis illo porro aliquid, at
-                dolorem minima harum, alias earum.
-              </p>
-              <Button className={"Pod-episode-play-button"} text={"Play"} />
-            </div>
-          </div>
-        </>
-    );
-}
+const Episode = ({ episode, index, setplaySound, play,episodes,setEpisodes }) => {
+
+
+  // Function to handle play  episode
+  function handlePlay() {
+    const newArr = [...episodes];
+    
+    for (let i = 0; i < newArr.length; i++) {
+      if (newArr[i].id === episode.id) {
+          newArr[i].isPlaying = false;
+      }
+      else{
+        newArr[i].isPlaying = false;
+      }
+    }
+    setEpisodes(newArr);
+ 
+  }
+
+  // Function to handle pause episode
+  function handlePause() {
+    const newArr = [...episodes];
+    for (let i = 0; i < newArr.length; i++) {
+      if (newArr[i].id === episode.id) {
+        
+          newArr[i].isPlaying = true;        
+      }
+      else{
+        newArr[i].isPlaying = false
+      }
+    }
+    setEpisodes(newArr);
+  }
+
+  return (
+    <>
+      <div className="Pod-episode">
+        <p className="Pod-episode-name">{`${index + 1}.) ${episode.title}`}</p>
+        <p className="Pod-episode-description">{episode.description}</p>
+        {play ? (
+          <Button
+            className={"Pod-episode-play-button"}
+            text={<FaPause/>}
+            callback={() => {
+              handlePlay();
+              setplaySound("");
+            }}
+          />
+        ) : (
+          <Button
+            className={"Pod-episode-play-button"}
+            text={<FaPlay/>}
+            callback={() => {
+              handlePause();
+              setplaySound(episode);
+            }}
+          />
+        )}
+      </div>
+    </>
+  );
+};
 
 export default Episode;

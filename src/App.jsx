@@ -74,7 +74,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Signup />}></Route>
         <Route element={<PrivateRoute/>}>
-          <Route path={`/podcasts`} element={<Podcasts />}></Route>
+          <Route path="/podcasts" element={<Podcasts />}></Route>
           <Route path="/startApodcast" element={<StartAPodcast />}></Route>
           <Route path="/podcastDetails/:id" element={<PodcastDetails />}></Route>
           <Route path="/podcast/create-episode/:id" element={<PodcastCreateEpisode />}></Route>

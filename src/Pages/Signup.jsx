@@ -1,6 +1,6 @@
 
 import NavBar from '../Components/Navbar/NavBar';
-import Form from '../Components/Form/Form';
+import Form from '../Components/Signup Login Form/Form';
 
 const Signup = () => {
     return (

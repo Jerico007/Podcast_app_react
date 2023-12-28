@@ -24,7 +24,7 @@ const Podcasts = () => {
 
   // Getting the list of podcasts that are currently available
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "podcast"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "podcasts"), (snapshot) => {
       const podcasts = [];
       snapshot.forEach((doc) => {
         podcasts.push({id:doc.id,details:doc.data()});
