@@ -6,8 +6,6 @@
  }
   
   .Pod-episode-description{
-    overflow-y: auto;
-    height: 10vh;
     word-break: break-all;
     color: rgba(255, 255, 255, 0.5);
 
@@ -53,3 +51,13 @@
   .Pod-episode-play-button:hover{
     box-shadow: 0px 0px 10px 7px #7575f6;
   }
+
+@media screen and (min-width:320px) and (max-width:768px) {
+  .Pod-episode-description{
+    overflow-y: auto;
+    height: 10vh;
+    word-break: break-all;
+    color: rgba(255, 255, 255, 0.5);
+
+  }
+}
