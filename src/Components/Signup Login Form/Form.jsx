@@ -203,7 +203,10 @@ const Form = () => {
             </form>
             {
               !isLogin ?   <p>Already have an account? <span style={{cursor:"pointer"}}  onClick={()=>(setIsLogin(true))}>Login.</span></p> : <p>Dont have an account? <span style={{cursor:"pointer"}} onClick={()=>(setIsLogin(false))}>Singup.</span></p>
-            }
+           }
+           {
+              isLogin ? <p style={{cursor:"pointer"}} onClick={()=>{navigate("/forgotPassword")}}>Forgot Password ?</p> : ""
+           }
         </div>
     );
 }

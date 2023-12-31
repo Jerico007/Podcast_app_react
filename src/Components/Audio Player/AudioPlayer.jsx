@@ -89,6 +89,13 @@ const AudioPlayer = ({ src ,image,name}) => {
     audioRef.current.volume = newVolume;
   };
  
+// Function to formate time
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+  
   return (
     <div className='AudioPlayer'>
       <audio ref={audioRef} src={src} />
@@ -139,10 +146,5 @@ const AudioPlayer = ({ src ,image,name}) => {
   );
 };
 
-const formatTime = (time) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-};
 
 export default AudioPlayer;

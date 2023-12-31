@@ -3,6 +3,7 @@ import { Routes, Route,useNavigate } from "react-router-dom";
 
 // Pages routes
 import Signup from "./Pages/Signup";
+import ForgotPassword from "./Pages/ForgotPassword";
 import Podcasts from "./Pages/Podcasts";
 import StartAPodcast from "./Pages/StartAPodcast";
 import PodcastDetails from "./Pages/PodcastDetails";
@@ -80,6 +81,7 @@ function App() {
           <Route path="/podcast/create-episode/:id" element={<PodcastCreateEpisode />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Route>
+          <Route path="/forgotPassword" element={<ForgotPassword/>}></Route>
       </Routes>
       <ToastContainer />
     </>
