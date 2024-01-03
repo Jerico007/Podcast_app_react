@@ -13,12 +13,15 @@ import { setUser } from "../Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 // Commmon Component
 import Button from "../Components/Common components/Button/Button";
+// Profile default image
+import ProfileImage from "../assets/Image/profile.png";
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
 
   //To navigate to sign in page
   const navigate = useNavigate();
 
+  // Redux dispatcher
   const dispatch = useDispatch();
 
   function handelSignOut() {
@@ -38,6 +41,18 @@ const Profile = () => {
       <div className="Profile-holder">
         <div className="Profile-content">
           {user ? (
+            <div className="Profile-img-holder">
+              {user.profileURL ? (
+                <img className="Profile-img" src={user.profileURL} />
+              ) : (
+                <img className="Profile-img" src={ProfileImage} />
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+
+          {user ? (
             <h1
               style={{ textAlign: "center", color: "white", padding: "3rem" }}
             >
@@ -46,7 +61,7 @@ const Profile = () => {
           ) : (
             ""
           )}
-          <div>
+          <div className="Button-holder">
             {user ? (
               <Button
                 text={"Logout"}
@@ -56,6 +71,11 @@ const Profile = () => {
             ) : (
               ""
             )}
+            {
+              user ? (
+                <Button text={"Edit Profile"} className={"Edit-profile-button"} callback={()=>{navigate("/editProfile")}} />
+              ): ""
+            }
           </div>
         </div>
       </div>

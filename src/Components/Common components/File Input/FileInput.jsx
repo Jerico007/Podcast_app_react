@@ -18,24 +18,19 @@ const FileInput = ({ id, name, callback, accept }) => {
     } else if (name === "Audio") {
       callback({ type: "AUDIO", payLoad: e.target.files[0] });
     }
+    else if(name === "Profile"){
+      callback({ type: "PROFILE", payLoad: e.target.files[0]})
+    }
   }
+
   return (
     <>
       <label htmlFor={id} className="Input-Label">
-        {!selected && name === "Banner"
-          ? `Select a ${name} image`
-          : ""}
-        {
-          !selected && name === "Small"
-          ? `Select a ${name} image`
-          : ""
-        }
-        {!selected && name === "Audio"
-          ? `Select an ${name} file`
-          :""}
-          {
-            selected ? `File ${selected.name} was selected` : ""
-          }
+        {!selected && name === "Banner" ? `Select a ${name} image` : ""}
+        {!selected && name === "Small" ? `Select a ${name} image` : ""}
+        {!selected && name === "Audio" ? `Select an ${name} file` : ""}
+        {!selected && name === "Profile" ? `Select a ${name} image` : ""}
+        {selected ? `File ${selected.name} was selected` : ""}
       </label>
 
       <Input

@@ -9,6 +9,7 @@ import StartAPodcast from "./Pages/StartAPodcast";
 import PodcastDetails from "./Pages/PodcastDetails";
 import PodcastCreateEpisode from "./Pages/PodcastCreateEpisode";
 import Profile from "./Pages/Profile";
+import EditProfile from "./Pages/EditProfile";
 
 // React libraries
 import { useEffect } from "react";
@@ -38,12 +39,13 @@ function App() {
 
   const Navigate = useNavigate();
  
-  //useEffect to authorize user if already authorized
+  //useEffect to authorize user if already signed in
   useEffect(() => {
-    Navigate("/profile");
+  
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
- 
+        
+       
         const docRef = doc(db, "users", user.uid);
         getDoc(docRef).then((docSnap) => {
           if (docSnap.exists()) {
@@ -53,11 +55,13 @@ function App() {
               setUser({
                 fullName: docData.fullName,
                 email: docData.email,
+                profileURL : docData.profileURL,
                 uid: docData.uid,
               })
-            );
+              );
           }
         });
+        Navigate("/profile");
       } else {
         // No user is signed in.
         toast.success("Welcome Anonymous");
@@ -80,6 +84,7 @@ function App() {
           <Route path="/podcastDetails/:id" element={<PodcastDetails />}></Route>
           <Route path="/podcast/create-episode/:id" element={<PodcastCreateEpisode />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/editProfile" element={<EditProfile />}></Route>
         </Route>
           <Route path="/forgotPassword" element={<ForgotPassword/>}></Route>
       </Routes>
