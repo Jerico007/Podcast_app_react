@@ -18,6 +18,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // Common Component
 import Button from "../Common components/Button/Button";
 import FileInput from "../Common components/File Input/FileInput";
+import Input from "../Common components/Input/Input";
 
 // React toastify library
 import { toast } from "react-toastify";
@@ -34,17 +35,18 @@ const Form = () => {
 
   //useReducer to handel form state
   const [formState, formDispatch] = useReducer(formReducer, {
+    fullName: "",
     profileImage: "",
     loading: false,
   });
 
   //   Validate form
   async function validateForm() {
-    if (formState.profileImage === "") {
-      toast.error("Please select a profile image");
+
+    if(formState.fullName === "" && formState.profileImage === "") {
+      toast.error("Atleast one field must be updated");
       return;
     }
-
     try {
       formDispatch({ type: "LOADING", payLoad: true });
       //Storing the user profile in storage
@@ -54,23 +56,30 @@ const Form = () => {
       );
 
       // uploading the profile image
-      await uploadBytes(profileImgRef, formState.profileImage);
+      formState.profileImage &&
+        (await uploadBytes(profileImgRef, formState.profileImage));
 
       // Downloading the profile image URL
-      const profileURL = await getDownloadURL(profileImgRef);
+      const profileURL =
+        formState.profileImage && (await getDownloadURL(profileImgRef));
 
-      // Updating the user profile image in database
+      // Updating the user profile image or name in database
       const docRef = doc(db, "users", auth.currentUser.uid);
-      await updateDoc(docRef, {
-        profileURL: profileURL,
-      });
+
+      // updating if profile image present
+      formState.profileImage && (await updateDoc(docRef, {profileURL: profileURL,}));
+
+    //  updating if full name present
+      formState.fullName && (await updateDoc(docRef, {fullName: formState.fullName,}));
+
 
       // Storing the data in redux store
-      dispatch(setUser({ ...user, profileURL: profileURL }));
+      formState.fullName &&  dispatch(setUser({ ...user, fullName: formState.fullName}));
+     formState.profileImage &&   dispatch(setUser({ ...user, profileURL: profileURL }));
 
       // Showing success message
       formDispatch({ type: "SUCCESS" });
-      toast.success("Profile Pic updated successfully");
+      toast.success("Profile updated successfully!");
       //   Navigate to profile
       Navigate("/profile");
     } catch (e) {
@@ -92,7 +101,11 @@ const Form = () => {
   function formReducer(state, action) {
     if (action.type === "PROFILE") {
       return { ...state, profileImage: action.payLoad };
-    } else if (action.type === "LOADING") {
+    }
+    else if(action.type === "FULLNAME"){
+      return { ...state, fullName: action.payLoad };
+    } 
+    else if (action.type === "LOADING") {
       return { ...state, loading: action.payLoad };
     } else if (action.type === "SUCCESS") {
       return { ...state, loading: false, profileImage: "" };
@@ -102,8 +115,16 @@ const Form = () => {
 
   return (
     <div className="Form">
-      <h1>Edit profile picture</h1>
+      <h1>Edit profile.</h1>
       <form onSubmit={handleSubmit}>
+        <Input
+          type={"text"}
+          name={"fullName"}
+          placeholder={"Enter new name."}
+          onInput={(e) => {
+            formDispatch({ type: "FULLNAME", payLoad: e.target.value });
+          }}
+        />
         <FileInput
           id={"Profile-img"}
           name={"Profile"}
