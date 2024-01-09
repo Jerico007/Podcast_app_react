@@ -24,6 +24,10 @@ const Podcasts = () => {
 
   // Getting the list of podcasts that are currently available
   useEffect(() => {
+    // Resetting the filter podcasts array 
+    dispatch(setFilterPodcasts([]));
+    
+    // Adding podcast to podcastSlice
     const unsubscribe = onSnapshot(collection(db, "podcasts"), (snapshot) => {
       const podcasts = [];
       snapshot.forEach((doc) => {

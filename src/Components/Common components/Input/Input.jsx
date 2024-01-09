@@ -11,6 +11,7 @@ const Input = ({
   placeholder,
   style,
   onInput,
+  maxLength,
   accept,
   required,
 }) => {
@@ -19,6 +20,7 @@ const Input = ({
       <input
         name={name}
         type={type}
+        maxLength={maxLength}
         id={id}
         className={className}
         value={value}
