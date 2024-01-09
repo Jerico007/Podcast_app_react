@@ -2,20 +2,18 @@ import "./Form.css";
 // React Library
 import { useReducer, useState } from "react";
 
-// Imported Firebase file
+//Firebase library
 import { auth,storage, db } from "../../firebase";
-//Firestore library
 import { setDoc, getDoc, doc} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-//Authuntication library
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-// Redux actions
-import { setUser } from "../../Slices/userSlice";
 
-// Redux dispatch
+
+// Redux Library
+import { setUser } from "../../Slices/userSlice";
 import { useDispatch } from "react-redux";
 //
 // React router-dom

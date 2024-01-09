@@ -41,10 +41,10 @@ function App() {
  
   //useEffect to authorize user if already signed in
   useEffect(() => {
-  
+    
+    Navigate("/profile");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        
        
         const docRef = doc(db, "users", user.uid);
         getDoc(docRef).then((docSnap) => {
@@ -61,7 +61,7 @@ function App() {
               );
           }
         });
-        Navigate("/profile");
+       
       } else {
         // No user is signed in.
         toast.success("Welcome Anonymous");
