@@ -24,14 +24,14 @@ const Podcasts = () => {
 
   // Getting the list of podcasts that are currently available
   useEffect(() => {
-    // Resetting the filter podcasts array 
+    // Resetting the filter podcasts array
     dispatch(setFilterPodcasts([]));
-    
+
     // Adding podcast to podcastSlice
     const unsubscribe = onSnapshot(collection(db, "podcasts"), (snapshot) => {
       const podcasts = [];
       snapshot.forEach((doc) => {
-        podcasts.push({id:doc.id,details:doc.data()});
+        podcasts.push({ id: doc.id, details: doc.data() });
       });
       dispatch(setPodcasts(podcasts));
     });
@@ -46,15 +46,19 @@ const Podcasts = () => {
       dispatch(setFilterPodcasts([]));
     }
     // Filtering out the podcast
-    let newArray = podcasts.filter(
-      (val) =>
-        val.details.title.toLowerCase().substring(0, e.target.value.length) ===
-        e.target.value.toLowerCase()
-    );
-    dispatch(setFilterPodcasts(newArray));
+    let newArray =
+      podcasts.length > 0 &&
+      podcasts.filter(
+        (val) =>
+          val.details.title
+            .toLowerCase()
+            .substring(0, e.target.value.length) ===
+          e.target.value.toLowerCase()
+      );
+    podcasts.length > 0 && dispatch(setFilterPodcasts(newArray));
   }
 
-    // console.log(podcasts);
+  // console.log(podcasts);
   return (
     <div className="Podcasts">
       <NavBar />
@@ -67,9 +71,13 @@ const Podcasts = () => {
           onInput={handelSearch}
         />
         <div className="Podcasts-cards">
-            {
-                podcasts.length > 0 ? "" : <h1 style={{color:"white"}} className="Podcasts-not-avail">No podcast available</h1>
-            }
+          {podcasts.length > 0 ? (
+            ""
+          ) : (
+            <h1 style={{ color: "white" }} className="Podcasts-not-avail">
+              No podcast available
+            </h1>
+          )}
           {filterPodcasts.length > 0
             ? filterPodcasts.map((val) => (
                 <PodcastCard
